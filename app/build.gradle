@@ -10,8 +10,8 @@ android {
         applicationId 'ir.maniimani.bluetune'
         minSdk 26
         targetSdk 28          // Android 9 — same as the head unit
-        versionCode 6
-        versionName '2.0.1'
+        versionCode 7
+        versionName '2.1.0'
     }
 
     // A fixed key committed to the repo, so every build (local or CI) is signed the

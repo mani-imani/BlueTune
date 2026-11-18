@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+- اسم‌های بلند حالا با یه انیمیشن جدید و روان رد می‌شن: آروم از اول تا آخر می‌رن، کمی مکث می‌کنن و دوباره از اول شروع می‌کنن. انیمیشن قبلی (marquee خود اندروید) روی مانیتور گیر می‌کرد (Long titles now scroll with a new hand-made marquee; Android's built-in one stalled on the head unit)
+- «آهنگ فلان از فلان» حذف شد (Removed the "track N of M" line)
+
 ## 2.0.1
 - رفع باگ: وقتی چیز تازه‌ای به صفحه اضافه می‌شد (مثل دکمه‌ی «پخش از بلوتوث»)، جای دکمه‌ی پخش و توقف تنگ می‌شد و دایره‌اش بریده نمایش داده می‌شد. حالا چیدمان هر بار دوباره اندازه‌گیری می‌شه (Fix: the play/pause button got squeezed and clipped when something new appeared on screen; the layout now re-fits whenever its content changes)
 

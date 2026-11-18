@@ -19,7 +19,7 @@ Most aftermarket Android head units ship a bright, bare-bones Bluetooth music sc
 - **Generated cover art.** The head unit never receives real album art, so BlueTune generates artwork from the title and artist. Each song always gets the same artwork: a deep gradient, light blooms, faint vinyl grooves and the song's first letter.
 - **Live waveform.** It breathes gently while music plays and settles into a row of dots when paused.
 - **Night dim.** The 🌙 button darkens the whole screen by 50%. The choice is remembered.
-- **Song info:** title, artist, track number in the queue and the connected phone's name.
+- **Song info:** title, artist and the connected phone's name. Long titles slowly scroll from start to end, then start over.
 - **Controls:** play/pause, next and previous. Buttons respond instantly and stay in sync with the real playback state.
 - **Persian-first UI** with the Vazirmatn font and Persian digits. Latin titles render cleanly too.
 - **Adaptive layout** for landscape and portrait. The info column scales as a whole to fit any screen.

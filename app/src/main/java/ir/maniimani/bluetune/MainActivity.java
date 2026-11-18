@@ -58,7 +58,8 @@ public class MainActivity extends Activity {
     private GlowView glow;
     private LinearLayout content, info, controls;
     private ArtworkView art;
-    private TextView chipText, title, artist, counter, sourcePill;
+    private TextView chipText, title, artist, sourcePill;
+    private MarqueeView titleBox;
     private ImageView chipIcon;
     private View chipDot;
     private WaveView wave;
@@ -110,7 +111,6 @@ public class MainActivity extends Activity {
         super.onResume();
         chrome.start();
         poll.post(pollTask);
-        title.setSelected(true);
     }
 
     @Override
@@ -174,13 +174,6 @@ public class MainActivity extends Activity {
             }
         }
 
-        if (s.count > 0 && s.index > 0) {
-            counter.setVisibility(View.VISIBLE);
-            counter.setText("آهنگ " + fa(s.index) + " از " + fa(s.count));
-        } else {
-            counter.setVisibility(View.GONE);
-        }
-
         boolean playing = s.playing;
         if (optimisticUntilSet && SystemClock.elapsedRealtime() < optimisticUntil) {
             playing = playingUi; // keep the instant feedback until the head unit catches up
@@ -208,7 +201,6 @@ public class MainActivity extends Activity {
             setTextAnimated(title, "گوشی وصل نیست");
             setTextAnimated(artist, "بلوتوث آیفون رو روشن کن تا خودکار وصل بشه");
         }
-        counter.setVisibility(View.GONE);
         sourcePill.setVisibility(View.GONE);
         setPlaying(false);
         wave.setAlpha(0.35f);
@@ -226,7 +218,6 @@ public class MainActivity extends Activity {
             setTextAnimated(title, "سرویس مانیتور در دسترس نیست");
             setTextAnimated(artist, "سیستم مانیتور اجازه‌ی اتصال به بلوتوث رو نداد");
         }
-        counter.setVisibility(View.GONE);
         sourcePill.setVisibility(View.GONE);
         setPlaying(false);
         wave.setAlpha(0.35f);
@@ -324,21 +315,14 @@ public class MainActivity extends Activity {
         info.addView(buildChip(), wrapCentered(0));
 
         title = text(fBlack, 34, C_TEXT);
-        title.setSingleLine(true);
-        title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-        title.setMarqueeRepeatLimit(-1);
-        title.setHorizontalFadingEdgeEnabled(true);
-        title.setFadingEdgeLength(dp(24));
-        title.setSelected(true);
-        info.addView(title, fullWidth(dp(22)));
+        titleBox = new MarqueeView(this, title);
+        info.addView(titleBox, fullWidth(dp(22)));
 
         artist = text(fMedium, 19, C_TEXT_2);
         artist.setSingleLine(true);
         artist.setEllipsize(TextUtils.TruncateAt.END);
         info.addView(artist, fullWidth(dp(6)));
 
-        counter = text(fRegular, 13, C_TEXT_3);
-        info.addView(counter, fullWidth(dp(6)));
 
         // live waveform (decorative)
         wave = new WaveView(this);
@@ -504,13 +488,11 @@ public class MainActivity extends Activity {
     private void applyScale(float k) {
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 34 * k);
         artist.setTextSize(TypedValue.COMPLEX_UNIT_SP, 19 * k);
-        counter.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13 * k);
         chipText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13 * k);
         sourcePill.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14 * k);
 
-        topMargin(title, dp(22 * k));
+        topMargin(titleBox, dp(22 * k));
         topMargin(artist, dp(6 * k));
-        topMargin(counter, dp(6 * k));
         topMargin(wave, dp(26 * k));
         ViewGroup.LayoutParams wl = wave.getLayoutParams();
         wl.height = dp(46 * k);
@@ -605,11 +587,12 @@ public class MainActivity extends Activity {
             tv.setText(text);
             return;
         }
-        tv.animate().alpha(0f).translationY(dp(6)).setDuration(160).withEndAction(() -> {
+        // the title fades as a whole box, so its marquee can slide the text inside freely
+        final View v = tv == title ? titleBox : tv;
+        v.animate().alpha(0f).translationY(dp(6)).setDuration(160).withEndAction(() -> {
             tv.setText(text);
-            tv.setTranslationY(-dp(6));
-            tv.animate().alpha(1f).translationY(0).setDuration(320).setInterpolator(new DecelerateInterpolator()).start();
-            if (tv == title) tv.setSelected(true);
+            v.setTranslationY(-dp(6));
+            v.animate().alpha(1f).translationY(0).setDuration(320).setInterpolator(new DecelerateInterpolator()).start();
         }).start();
     }
 
@@ -666,13 +649,5 @@ public class MainActivity extends Activity {
         return lp;
     }
 
-    private static final char[] FA = {'۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'};
-
-    static String fa(long n) {
-        String s = String.valueOf(n);
-        StringBuilder b = new StringBuilder(s.length());
-        for (char c : s.toCharArray()) b.append(c >= '0' && c <= '9' ? FA[c - '0'] : c);
-        return b.toString();
-    }
 
 }
