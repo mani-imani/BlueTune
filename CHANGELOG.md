@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+- کاور رفت سمت راست و دکمه‌ها اومدن سمت راننده، مثل GeekMusic (Cover moved to the right; controls on the driver's side, matching GeekMusic)
+- دکمه‌ی حالت شب رفت گوشه‌ی بالا چپ (Night button moved to the top-left corner)
+
 ## 1.1.0
 - موج زنده‌ی تزئینی به جای نوار زمان (Live decorative waveform replaces the timeline)
 - دکمه‌ی پخش همیشه یه دایره‌ی کامله (Play button is always a perfect circle)

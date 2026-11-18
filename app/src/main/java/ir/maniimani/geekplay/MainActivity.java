@@ -373,9 +373,9 @@ public class MainActivity extends Activity {
         btnMoon.setBackground(new RippleDrawable(ColorStateList.valueOf(C_RIPPLE), null, new ShapeDrawable(new OvalShape())));
         btnMoon.setContentDescription("حالت شب");
         btnMoon.setOnClickListener(v -> setDim(!dim, true));
-        FrameLayout.LayoutParams mlp = new FrameLayout.LayoutParams(dp(52), dp(52), Gravity.TOP | Gravity.RIGHT);
+        FrameLayout.LayoutParams mlp = new FrameLayout.LayoutParams(dp(52), dp(52), Gravity.TOP | Gravity.LEFT);
         mlp.topMargin = dp(10);
-        mlp.rightMargin = dp(12);
+        mlp.leftMargin = dp(12);
         root.addView(btnMoon, mlp);
 
         // dim overlay — not clickable, so touches pass through
@@ -402,6 +402,16 @@ public class MainActivity extends Activity {
         int pad = landscape ? dp(44) : dp(28);
         content.setPadding(pad, pad, pad, pad);
         content.setOrientation(landscape ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
+        // Landscape: controls on the left (driver's side in a left-hand-drive car), cover on the right.
+        // Portrait: cover on top.
+        content.removeAllViews();
+        if (landscape) {
+            content.addView(info);
+            content.addView(art);
+        } else {
+            content.addView(art);
+            content.addView(info);
+        }
 
         int artSize;
         if (landscape) {
@@ -416,7 +426,7 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams ilp;
         if (landscape) {
             ilp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-            ilp.leftMargin = dp(48);
+            ilp.rightMargin = dp(48);
         } else {
             ilp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ilp.topMargin = dp(28);
@@ -427,7 +437,7 @@ public class MainActivity extends Activity {
         // size (text, gaps, buttons) down together if it doesn't fit. Buttons stay
         // perfectly square, so the play ring is always a true circle.
         applyScale(1f);
-        int infoW = landscape ? (w - 2 * pad - artSize - ilp.leftMargin) : (w - 2 * pad);
+        int infoW = landscape ? (w - 2 * pad - artSize - ilp.rightMargin) : (w - 2 * pad);
         int availH = landscape ? (h - 2 * pad) : (h - 2 * pad - artSize - ilp.topMargin);
         info.measure(View.MeasureSpec.makeMeasureSpec(Math.max(1, infoW), View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
