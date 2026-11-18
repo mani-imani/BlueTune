@@ -24,6 +24,9 @@ Most aftermarket Android head units ship a bright, bare-bones Bluetooth music sc
 - **Persian-first UI** with the Vazirmatn font and Persian digits. Latin titles render cleanly too.
 - **Adaptive layout** for landscape and portrait. The info column scales as a whole to fit any screen.
 - **Keeps the screen on** while open.
+- **Full-screen:** the head unit's top bar hides; swipe down or tap the top edge to show it for a few seconds.
+- **Clock** above the cover.
+- **Driver-side controls:** controls on the left, cover on the right.
 
 ## Compatibility
 
