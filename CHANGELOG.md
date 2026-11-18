@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1
+- رفع باگ: وقتی چیز تازه‌ای به صفحه اضافه می‌شد (مثل دکمه‌ی «پخش از بلوتوث»)، جای دکمه‌ی پخش و توقف تنگ می‌شد و دایره‌اش بریده نمایش داده می‌شد. حالا چیدمان هر بار دوباره اندازه‌گیری می‌شه (Fix: the play/pause button got squeezed and clipped when something new appeared on screen; the layout now re-fits whenever its content changes)
+
 ## 2.0.0
 - اسم جدید: **BlueTune** (قبلاً GeekPlay). شناسه‌ی اپ عوض شده، پس نسخه‌ی قبلی رو یه بار پاک کن و این رو نصب کن (New name: BlueTune, formerly GeekPlay. The app ID changed, so uninstall the old app once and install this one)
 

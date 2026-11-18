@@ -376,6 +376,13 @@ public class MainActivity extends Activity {
         sourcePill.setVisibility(View.GONE);
         info.addView(sourcePill, wrapCentered(dp(18)));
 
+        for (int i = 0; i < info.getChildCount(); i++) {
+            View v = info.getChildAt(i);
+            if (v != wave && v != controls) watchForRefit(v);
+        }
+        controls.setClipChildren(false);
+        info.setClipChildren(false);
+
         // night-dim toggle (top-right)
         btnMoon = new ImageButton(this);
         btnMoon.setImageResource(R.drawable.ic_moon);
@@ -450,25 +457,47 @@ public class MainActivity extends Activity {
         }
         info.setLayoutParams(ilp);
 
-        // Fit the info column to the screen: measure at full size, then scale every
-        // size (text, gaps, buttons) down together if it doesn't fit. Buttons stay
-        // perfectly square, so the play ring is always a true circle.
-        applyScale(1f);
-        int infoW = landscape ? (w - 2 * pad - artSize - ilp.rightMargin) : (w - 2 * pad);
-        int availH = landscape ? (h - 2 * pad) : (h - 2 * pad - artSize - ilp.topMargin);
-        info.measure(View.MeasureSpec.makeMeasureSpec(Math.max(1, infoW), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        int need = info.getMeasuredHeight();
-        if (need > availH && need > 0) {
-            float k = Math.max(0.55f, availH / (float) need * 0.97f);
-            applyScale(k);
-        }
+        fitInfoW = landscape ? (w - 2 * pad - artSize - ilp.rightMargin) : (w - 2 * pad);
+        fitAvailH = landscape ? (h - 2 * pad) : (h - 2 * pad - artSize - ilp.topMargin);
+        fitInfo();
 
         content.post(() -> {
             float cx = (art.getLeft() + art.getWidth() / 2f) / (float) Math.max(1, w);
             float cy = (art.getTop() + art.getHeight() / 2f) / (float) Math.max(1, h);
             glow.setCenter(cx, cy);
             chrome.placeClockAbove(art, dp(4));
+        });
+    }
+
+    private int fitInfoW, fitAvailH;
+
+    /**
+     * Fit the info column to the screen: measure at full size, then scale every size (text,
+     * gaps, buttons) down together if it doesn't fit. Buttons stay perfectly square, so the
+     * play ring is always a true circle. Runs again whenever something in the column appears,
+     * disappears or changes height (e.g. the "play from Bluetooth" pill), otherwise the
+     * controls were squeezed and the play button clipped.
+     */
+    private void fitInfo() {
+        if (fitInfoW <= 0 || fitAvailH <= 0) return;
+        applyScale(1f);
+        info.measure(View.MeasureSpec.makeMeasureSpec(fitInfoW, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        int need = info.getMeasuredHeight();
+        float k = 1f;
+        if (need > fitAvailH && need > 0) k = Math.max(0.5f, fitAvailH / (float) need * 0.97f);
+        if (k < 1f) applyScale(k);
+    }
+
+    private final Runnable refit = this::fitInfo;
+
+    /** Re-fit when a child of the info column changes height or visibility. */
+    private void watchForRefit(View v) {
+        v.addOnLayoutChangeListener((x, l, t, r, b, ol, ot, or, ob) -> {
+            if ((b - t) != (ob - ot)) {
+                info.removeCallbacks(refit);
+                info.post(refit);
+            }
         });
     }
 
