@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+- تمام‌صفحه: نوار بالای مانیتور پنهان می‌شه و با کشیدن یا لمس لبه‌ی بالای صفحه چند ثانیه نمایش داده می‌شه (Full-screen: the head unit's top bar hides; swipe or tap the top edge to show it briefly)
+- ساعت بالای کاور (Clock above the cover)
+
 ## 1.2.0
 - کاور رفت سمت راست و دکمه‌ها اومدن سمت راننده، مثل GeekMusic (Cover moved to the right; controls on the driver's side, matching GeekMusic)
 - دکمه‌ی حالت شب رفت گوشه‌ی بالا چپ (Night button moved to the top-left corner)

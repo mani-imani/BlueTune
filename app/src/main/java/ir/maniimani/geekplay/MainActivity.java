@@ -65,6 +65,8 @@ public class MainActivity extends Activity {
     private ImageButton btnPrev, btnNext, btnMoon;
     private PlayButton btnPlay;
     private View dimOverlay;
+    private Chrome chrome;
+    private TextView clock;
 
     // state
     private CarBt.State state;
@@ -106,6 +108,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        chrome.start();
         poll.post(pollTask);
         title.setSelected(true);
     }
@@ -113,7 +116,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         poll.removeCallbacks(pollTask);
+        chrome.stop();
         super.onPause();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) chrome.hide();
     }
 
     @Override
@@ -290,6 +300,7 @@ public class MainActivity extends Activity {
 
     private void buildUi() {
         root = new FrameLayout(this);
+        chrome = new Chrome(this);
         root.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         root.setBackgroundColor(Color.BLACK);
 
@@ -374,9 +385,12 @@ public class MainActivity extends Activity {
         btnMoon.setContentDescription("حالت شب");
         btnMoon.setOnClickListener(v -> setDim(!dim, true));
         FrameLayout.LayoutParams mlp = new FrameLayout.LayoutParams(dp(52), dp(52), Gravity.TOP | Gravity.LEFT);
-        mlp.topMargin = dp(10);
+        mlp.topMargin = dp(16);
         mlp.leftMargin = dp(12);
         root.addView(btnMoon, mlp);
+
+        clock = chrome.createClock(fBold, 20, C_TEXT_2);
+        root.addView(clock, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         // dim overlay — not clickable, so touches pass through
         dimOverlay = new View(this);
@@ -385,6 +399,9 @@ public class MainActivity extends Activity {
         dimOverlay.setClickable(false);
         dimOverlay.setFocusable(false);
         root.addView(dimOverlay, match());
+
+        // tap along the very top edge to bring the head unit's bar back for a moment
+        chrome.addTopStrip(root, dp(12));
 
         root.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
             int w = r - l, h = b - t;
@@ -415,9 +432,9 @@ public class MainActivity extends Activity {
 
         int artSize;
         if (landscape) {
-            artSize = (int) Math.min(h - 2f * pad, w * 0.40f);
+            artSize = (int) Math.min(h - 2f * pad - dp(44), w * 0.40f); // leave room for the clock
         } else {
-            artSize = (int) Math.min(w - 2f * pad, h * 0.40f);
+            artSize = (int) Math.min(w - 2f * pad, h * 0.40f - dp(44));
         }
         artSize = Math.max(artSize, dp(160));
         LinearLayout.LayoutParams alp = new LinearLayout.LayoutParams(artSize, artSize);
@@ -451,6 +468,7 @@ public class MainActivity extends Activity {
             float cx = (art.getLeft() + art.getWidth() / 2f) / (float) Math.max(1, w);
             float cy = (art.getTop() + art.getHeight() / 2f) / (float) Math.max(1, h);
             glow.setCenter(cx, cy);
+            chrome.placeClockAbove(art, dp(4));
         });
     }
 
