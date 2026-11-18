@@ -73,7 +73,7 @@ These come from the head unit itself, and GeekPlay can't work around them:
 
 ## Building
 
-GitHub Actions builds on every push to `main`. Pushing a `v*` tag also publishes the APK to Releases. To build locally:
+GitHub Actions builds on every push to `main`. When `versionName` changes, the APK is also published to Releases automatically. To build locally:
 
 ```bash
 # JDK 17 + Android SDK (compileSdk 34) + Gradle 8.7
@@ -81,11 +81,7 @@ gradle assembleRelease
 # → app/build/outputs/apk/release/app-release.apk
 ```
 
-To release, bump `versionName` in `app/build.gradle`, add notes to `CHANGELOG.md`, then:
-
-```bash
-git tag v1.2.0 && git push origin v1.2.0
-```
+To release, bump `versionName` (and `versionCode`) in `app/build.gradle`, add a `## 1.2.0` section to `CHANGELOG.md`, and push. The `v1.2.0` tag and release are created automatically.
 
 > The signing key (`app/geekplay.keystore`) is committed on purpose so every build installs over the previous one. This is a sideloaded personal app, and the key is not meant for Google Play.
 

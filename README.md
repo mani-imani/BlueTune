@@ -93,7 +93,7 @@ GeekPlay همین پروتکل رو مستقیم پیاده‌سازی می‌ک
 
 ## ساخت از سورس
 
-با هر push به شاخه‌ی `main`، GitHub Actions اپ رو می‌سازه. اگه یه تگ `v*` بزنی، APK خودکار توی Releases هم منتشر می‌شه. برای ساخت روی سیستم خودت:
+با هر push به شاخه‌ی `main`، GitHub Actions اپ رو می‌سازه. اگه `versionName` عوض شده باشه، APK خودکار توی Releases هم منتشر می‌شه. برای ساخت روی سیستم خودت:
 
 <div dir="ltr">
 
@@ -105,15 +105,7 @@ gradle assembleRelease
 
 </div>
 
-برای انتشار یه نسخه‌ی جدید، `versionName` رو توی `app/build.gradle` و یادداشت‌های نسخه رو توی `CHANGELOG.md` به‌روز کن، بعد:
-
-<div dir="ltr">
-
-```bash
-git tag v1.2.0 && git push origin v1.2.0
-```
-
-</div>
+برای انتشار یه نسخه‌ی جدید، `versionName` (و `versionCode`) رو توی `app/build.gradle` بالا ببر، یادداشت‌های نسخه رو با عنوان `## 1.2.0` به `CHANGELOG.md` اضافه کن و push کن. تگ `v1.2.0` و Release خودکار ساخته می‌شن.
 
 > کلید امضای APK (`app/geekplay.keystore`) عمداً توی ریپو گذاشته شده تا همه‌ی نسخه‌ها با یه کلید امضا بشن و روی هم نصب بشن. این اپ برای نصب دستیه، و این کلید برای Google Play در نظر گرفته نشده.
 
