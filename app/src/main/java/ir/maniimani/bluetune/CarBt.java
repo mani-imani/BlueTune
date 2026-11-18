@@ -1,4 +1,4 @@
-package ir.maniimani.geekplay;
+package ir.maniimani.bluetune;
 
 import android.os.Bundle;
 import android.os.IBinder;
@@ -161,7 +161,7 @@ final class CarBt {
     void enterBtMusicSource() {
         Bundle b = new Bundle();
         b.putInt("app_id", APP_ID_BT_MUSIC);
-        b.putString("reason", "GeekPlay");
+        b.putString("reason", "BlueTune");
         requestSync("request.app.enter_app", b);
     }
 

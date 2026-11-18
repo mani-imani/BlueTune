@@ -1,22 +1,22 @@
-# GeekPlay
+# BlueTune
 
 **A pure-black Bluetooth music player for Android car head units.**
 
-[![Build](https://github.com/mani-imani/GeekPlay/actions/workflows/build.yml/badge.svg)](https://github.com/mani-imani/GeekPlay/actions/workflows/build.yml)
-[![Release](https://img.shields.io/github/v/release/mani-imani/GeekPlay?label=release)](https://github.com/mani-imani/GeekPlay/releases/latest)
+[![Build](https://github.com/mani-imani/BlueTune/actions/workflows/build.yml/badge.svg)](https://github.com/mani-imani/BlueTune/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/mani-imani/BlueTune?label=release)](https://github.com/mani-imani/BlueTune/releases/latest)
 [![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)
 [![Android 9](https://img.shields.io/badge/Android-9%20(API%2028)-3DDC84?logo=android&logoColor=white)](#compatibility)
 
-[فارسی](README.md)
+[فارسی](README.md) · Sibling apps: [DrivePlay](https://github.com/mani-imani/DrivePlay) (USB / SD player) · [DoorAlert](https://github.com/mani-imani/DoorAlert) (open-door alert)
 
-![GeekPlay — Hotel California, Eagles](docs/screenshot-en.png)
+![BlueTune — Hotel California, Eagles](docs/screenshot-en.png)
 
-Most aftermarket Android head units ship a bright, bare-bones Bluetooth music screen: three buttons and a stock image. GeekPlay replaces it with a screen designed for driving at night: true black, low-glare text, big touch targets and unique artwork for every song.
+Most aftermarket Android head units ship a bright, bare-bones Bluetooth music screen: three buttons and a stock image. BlueTune replaces it with a screen designed for driving at night: true black, low-glare text, big touch targets and unique artwork for every song.
 
 ## Features
 
 - **True black (`#000`).** Nothing on screen is brighter than it needs to be, and the accent colour comes from each song's artwork.
-- **Generated cover art.** The head unit never receives real album art, so GeekPlay generates artwork from the title and artist. Each song always gets the same artwork: a deep gradient, light blooms, faint vinyl grooves and the song's first letter.
+- **Generated cover art.** The head unit never receives real album art, so BlueTune generates artwork from the title and artist. Each song always gets the same artwork: a deep gradient, light blooms, faint vinyl grooves and the song's first letter.
 - **Live waveform.** It breathes gently while music plays and settles into a row of dots when paused.
 - **Night dim.** The 🌙 button darkens the whole screen by 50%. The choice is remembered.
 - **Song info:** title, artist, track number in the queue and the connected phone's name.
@@ -37,14 +37,16 @@ Most aftermarket Android head units ship a bright, bare-bones Bluetooth music sc
 | **Android** | 9 (API 28) |
 | **Phone** | iPhone over Bluetooth (any phone that pairs with the head unit should work) |
 
-GeekPlay talks to the head unit's vendor `car` service (the `android.car.server` firmware family used by many Chinese head units). Other units running the same firmware will likely work. Units without that service show *“head unit service unavailable”*.
+BlueTune talks to the head unit's vendor `car` service (the `android.car.server` firmware family used by many Chinese head units). Other units running the same firmware will likely work. Units without that service show *“head unit service unavailable”*.
 
 ## Install
 
-1. Download `GeekPlay.apk` from the [latest release](https://github.com/mani-imani/GeekPlay/releases/latest).
-   Direct link: `https://github.com/mani-imani/GeekPlay/releases/latest/download/GeekPlay.apk`
+1. Download `BlueTune.apk` from the [latest release](https://github.com/mani-imani/BlueTune/releases/latest).
+   Direct link: `https://github.com/mani-imani/BlueTune/releases/latest/download/BlueTune.apk`
 2. Install it on the head unit. You can open the link in the unit's browser over a phone hotspot, or copy the APK over on a USB stick. Allow installs from unknown sources if asked.
-3. Open **GeekPlay** from the app drawer.
+3. Open **BlueTune** from the app drawer.
+
+> If the old version of this app, named GeekPlay, is on your head unit, uninstall it first. The app ID changed, so the two install side by side.
 
 > If you installed a pre-1.1.0 test build, uninstall it once first. From 1.1.0 on, every build is signed with the same key and installs as an update.
 
@@ -64,15 +66,15 @@ We used a small diagnostic app, [GeekProbe](https://github.com/mani-imani/GeekPr
 | Connection | `state.bt.hfp_state`, `state.bt.remote_name` |
 | Audio source | `state.app.cur_source`, `request.app.enter_app` (BT music = `65537`) |
 
-GeekPlay implements this wire protocol directly ([`CarBt.java`](app/src/main/java/ir/maniimani/geekplay/CarBt.java)). It uses no vendor libraries.
+BlueTune implements this wire protocol directly ([`CarBt.java`](app/src/main/java/ir/maniimani/bluetune/CarBt.java)). It uses no vendor libraries.
 
 ### Limitations
 
-These come from the head unit itself, and GeekPlay can't work around them:
+These come from the head unit itself, and BlueTune can't work around them:
 
 - **No seeking.** The Bluetooth module only accepts play/pause, next and previous.
 - **No playback position.** The unit never receives the current position from the phone, so a decorative waveform stands in for a progress bar.
-- **No real album art.** The unit never receives album art, so GeekPlay shows its own generated artwork.
+- **No real album art.** The unit never receives album art, so BlueTune shows its own generated artwork.
 
 ## Building
 
@@ -86,12 +88,12 @@ gradle assembleRelease
 
 To release, bump `versionName` (and `versionCode`) in `app/build.gradle`, add a `## 1.2.0` section to `CHANGELOG.md`, and push. The `v1.2.0` tag and release are created automatically.
 
-> The signing key (`app/geekplay.keystore`) is committed on purpose so every build installs over the previous one. This is a sideloaded personal app, and the key is not meant for Google Play.
+> The signing key (`app/bluetune.keystore`) is committed on purpose so every build installs over the previous one. This is a sideloaded personal app, and the key is not meant for Google Play.
 
 ## Project structure
 
 ```
-app/src/main/java/ir/maniimani/geekplay/
+app/src/main/java/ir/maniimani/bluetune/
 ├── MainActivity.java   UI, layout, state handling
 ├── CarBt.java          Binder client for the head unit's "car" service
 ├── Art.java            Deterministic generated cover art + palette

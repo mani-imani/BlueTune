@@ -3,15 +3,15 @@ plugins {
 }
 
 android {
-    namespace 'ir.maniimani.geekplay'
+    namespace 'ir.maniimani.bluetune'
     compileSdk 34
 
     defaultConfig {
-        applicationId 'ir.maniimani.geekplay'
+        applicationId 'ir.maniimani.bluetune'
         minSdk 26
         targetSdk 28          // Android 9 — same as the head unit
-        versionCode 4
-        versionName '1.3.0'
+        versionCode 5
+        versionName '2.0.0'
     }
 
     // A fixed key committed to the repo, so every build (local or CI) is signed the
@@ -19,9 +19,9 @@ android {
     // sideloaded app, not a Play Store release key.
     signingConfigs {
         shared {
-            storeFile file('geekplay.keystore')
+            storeFile file('bluetune.keystore')
             storePassword 'android'
-            keyAlias 'geekplay'
+            keyAlias 'bluetune'
             keyPassword 'android'
         }
     }

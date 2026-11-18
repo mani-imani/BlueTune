@@ -1,4 +1,4 @@
-package ir.maniimani.geekplay;
+package ir.maniimani.bluetune;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * GeekPlay — a pure-black Bluetooth music screen for the car head unit.
+ * BlueTune — a pure-black Bluetooth music screen for the car head unit.
  */
 public class MainActivity extends Activity {
 
@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
         fBold = font("vazirmatn_Bold");
         fBlack = font("vazirmatn_Black");
 
-        SharedPreferences prefs = getSharedPreferences("geekplay", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("bluetune", MODE_PRIVATE);
         dim = prefs.getBoolean("dim", false);
 
         buildUi();
@@ -289,7 +289,7 @@ public class MainActivity extends Activity {
 
     private void setDim(boolean on, boolean animate) {
         dim = on;
-        getSharedPreferences("geekplay", MODE_PRIVATE).edit().putBoolean("dim", on).apply();
+        getSharedPreferences("bluetune", MODE_PRIVATE).edit().putBoolean("dim", on).apply();
         float target = on ? 0.5f : 0f;
         if (animate) dimOverlay.animate().alpha(target).setDuration(400).start();
         else dimOverlay.setAlpha(target);

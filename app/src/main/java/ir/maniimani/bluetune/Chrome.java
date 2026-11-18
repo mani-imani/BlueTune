@@ -1,4 +1,4 @@
-package ir.maniimani.geekplay;
+package ir.maniimani.bluetune;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

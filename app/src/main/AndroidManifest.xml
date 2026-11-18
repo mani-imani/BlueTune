@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:label="GeekPlay"
+        android:label="BlueTune"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
-        android:theme="@style/Theme.GeekPlay"
+        android:theme="@style/Theme.BlueTune"
         android:supportsRtl="true">
 
         <activity
